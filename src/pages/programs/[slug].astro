@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import { programs } from '../../data/programs';
+
+export function getStaticPaths() {
+  return programs.map((program) => ({
+    params: { slug: program.slug },
+    props: { program },
+  }));
+}
+
+const { program } = Astro.props;
+---
+
+<Layout title={`${program.title} | Osoyet Organization`} description={program.summary}>
+  <section class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <a href="/programs" class="font-semibold text-brand hover:underline">&larr; All programs</a>
+    <h1 class="mt-6 max-w-3xl text-4xl font-bold text-brand md:text-5xl">{program.title}</h1>
+    <div class={program.image ? 'mt-10 grid gap-10 md:grid-cols-2' : 'mt-10 max-w-3xl'}>
+      <div>
+        <p class="text-xl">{program.about}</p>
+        <h2 class="mt-10 text-2xl font-bold">What this looks like</h2>
+        <ul class="mt-4 space-y-3 text-lg">
+          {program.activities.map((activity) => (
+            <li class="border-t-2 border-brand-line pt-3">{activity}</li>
+          ))}
+        </ul>
+        <a href="/#contact" class="mt-10 inline-block rounded-full bg-brand px-7 py-3 font-semibold text-white hover:opacity-90">Get involved</a>
+      </div>
+      {program.image && <PhotoSlot src={program.image} alt={program.title} caption={program.title} />}
+    </div>
+  </section>
+</Layout>

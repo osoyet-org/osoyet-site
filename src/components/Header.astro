@@ -1,0 +1,93 @@
+---
+const links = [
+  { href: '/#about', label: 'About' },
+  {
+    href: '/our-work',
+    label: 'Our work',
+    children: [
+      { href: '/programs', label: 'Programs' },
+      { href: '/where-we-work', label: 'Where we work' },
+      { href: '/our-approach', label: 'Our approach' },
+    ],
+  },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/news', label: 'News' },
+  { href: '/#involved', label: 'Get involved' },
+  { href: '/#contact', label: 'Contact' },
+];
+---
+
+<header class="sticky top-0 z-20 border-b border-brand-line bg-white">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+    <a href="/" class="flex items-center gap-3 font-display text-2xl font-bold text-brand">
+  <img src="/images/logo.png" alt="Osoyet Organization logo" class="h-14 w-auto md:h-16" />
+  <span>Osoyet</span>
+</a>
+
+    <nav class="hidden gap-6 font-semibold lg:flex" aria-label="Main">
+      {links.map((link) =>
+        link.children ? (
+          <div class="group relative">
+            <a href={link.href} class="hover:text-brand hover:underline">{link.label}</a>
+            <div class="invisible absolute left-0 top-full z-30 w-52 pt-3 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+              <div class="rounded-xl border border-brand-line bg-white p-2 shadow-lg">
+                {link.children.map((child) => (
+                  <a href={child.href} class="block rounded-lg px-3 py-2 hover:bg-brand-soft hover:text-brand">{child.label}</a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a href={link.href} class="hover:text-brand hover:underline">{link.label}</a>
+        )
+      )}
+    </nav>
+
+    <a href="/#involved" class="hidden rounded-full bg-brand px-5 py-2 font-semibold text-white hover:opacity-90 lg:inline-block">Join us</a>
+
+    <button
+      id="menuBtn"
+      class="rounded border border-brand-line p-2 lg:hidden"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobileNav"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav id="mobileNav" class="hidden flex-col gap-1 border-t border-brand-line px-5 py-3 font-semibold lg:hidden" aria-label="Mobile">
+    {links.map((link) => (
+      <>
+        <a href={link.href} class="block py-2">{link.label}</a>
+        {link.children && link.children.map((child) => (
+          <a href={child.href} class="block py-2 pl-5 font-normal text-muted">{child.label}</a>
+        ))}
+      </>
+    ))}
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('mobileNav');
+
+  function setMenu(open: boolean) {
+    if (!btn || !nav) return;
+    nav.classList.toggle('hidden', !open);
+    nav.classList.toggle('flex', open);
+    btn.setAttribute('aria-expanded', String(open));
+  }
+
+  if (btn && nav) {
+    btn.addEventListener('click', () => {
+      setMenu(nav.classList.contains('hidden'));
+    });
+    nav.addEventListener('click', (event) => {
+      const target = event.target;
+      if (target instanceof HTMLElement && target.tagName === 'A') setMenu(false);
+    });
+  }
+</script>

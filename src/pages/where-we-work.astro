@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import { locations } from '../data/locations';
+---
+
+<Layout title="Where we work | Osoyet Organization">
+  <section class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <a href="/our-work" class="font-semibold text-brand hover:underline">&larr; Our work</a>
+    <h1 class="mt-6 text-4xl font-bold text-brand md:text-5xl">Where we work</h1>
+    <p class="mt-4 max-w-2xl text-lg text-muted">We work in the communities where we live, with the schools, health centres and families around us.</p>
+    <div class="mt-10 grid gap-10 md:grid-cols-2">
+      <ul class="space-y-6">
+        {locations.map((place) => (
+          <li class="border-t-2 border-brand pt-4">
+            <h2 class="text-2xl font-semibold">{place.name}</h2>
+            {place.description && <p class="mt-2 text-muted">{place.description}</p>}
+          </li>
+        ))}
+      </ul>
+      <PhotoSlot src="/images/community-group.jpg" alt="Osoyet team and community members" caption="Our work area" />
+    </div>
+  </section>
+</Layout>

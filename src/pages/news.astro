@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { news } from '../data/news';
+---
+
+<Layout title="News | Osoyet Organization">
+  <section class="mx-auto max-w-4xl px-5 py-16 md:py-24">
+    <h1 class="text-4xl font-bold text-brand md:text-5xl">News and updates</h1>
+    <p class="mt-4 text-lg text-muted">What is happening at Osoyet.</p>
+    {news.length === 0 ? (
+      <p class="mt-10 rounded-2xl bg-brand-soft p-8 text-lg">Updates are coming soon. Check back for news about our events and programs.</p>
+    ) : (
+      <ul class="mt-10 space-y-8">
+        {news.map((item) => (
+          <li class="border-t-2 border-brand pt-6">
+            <p class="text-muted">{item.date}</p>
+            <h2 class="mt-1 text-2xl font-semibold">{item.title}</h2>
+            <p class="mt-2 text-lg">{item.summary}</p>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</Layout>

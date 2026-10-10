@@ -1,0 +1,40 @@
+---
+import { site } from '../data/site';
+import { socials } from '../data/socials';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-brand-line">
+  <div class="mx-auto grid max-w-6xl gap-8 px-5 py-10 text-muted md:grid-cols-2">
+    <div>
+      <a href="/" class="inline-block">
+        <img src="/images/logo.png" alt="Osoyet Organization logo" class="h-24 w-auto" />
+      </a>
+      <p class="mt-4">Building communities, empowering youth, creating a better future.</p>
+      {socials.length > 0 && (
+        <ul class="mt-4 flex flex-wrap gap-3">
+          {socials.map((social) => (
+            <li>
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${social.name}: ${social.handle}`}
+                class="inline-block rounded-full border-2 border-brand-line px-4 py-2 font-semibold text-brand hover:bg-brand-soft"
+              >
+                {social.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+    <div class="space-y-1 md:text-right">
+      <p>{site.registration}</p>
+      <p>{site.registrationNumber}</p>
+      <p>{site.address}</p>
+      <p>{site.email} &middot; {site.phone}</p>
+      <p class="pt-2">&copy; {year} Osoyet Organization &middot; <a href="/privacy" class="underline hover:text-brand">Privacy</a></p>
+    </div>
+  </div>
+</footer>

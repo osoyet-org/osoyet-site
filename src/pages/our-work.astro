@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const sections = [
+  { href: '/programs', title: 'Programs', text: 'The six areas we work in, from health and the environment to youth, sports, peace and education.' },
+  { href: '/where-we-work', title: 'Where we work', text: 'The communities, schools and health centres we serve.' },
+  { href: '/our-approach', title: 'Our approach', text: 'How we work: with local people leading and everyone taking part.' },
+];
+---
+
+<Layout title="Our work | Osoyet Organization">
+  <section class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <h1 class="text-4xl font-bold text-brand md:text-5xl">Our work</h1>
+    <p class="mt-4 max-w-2xl text-lg text-muted">Osoyet works with communities to promote peace, empower young people and improve well-being.</p>
+    <ul class="mt-10 grid gap-8 md:grid-cols-3">
+      {sections.map((item) => (
+        <li class="border-t-2 border-brand pt-6">
+          <h2 class="text-2xl font-semibold">{item.title}</h2>
+          <p class="mt-2 text-muted">{item.text}</p>
+          <a href={item.href} class="mt-4 inline-block font-semibold text-brand hover:underline">Explore &rarr;</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>

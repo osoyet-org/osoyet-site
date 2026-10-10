@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+---
+
+<Layout title="Privacy | Osoyet Organization">
+  <section class="mx-auto max-w-3xl px-5 py-16 md:py-24">
+    <h1 class="text-4xl font-bold text-brand md:text-5xl">Privacy</h1>
+    <div class="mt-8 space-y-4 text-lg">
+      <p>When you send us a message through our contact form, we collect your name, email address and message so that we can reply to you.</p>
+      <p>Messages are delivered to us through a third-party form service. We do not sell or share your details, and we use them only to respond to you and to run our programs.</p>
+      <p>If you contact us on WhatsApp, your number and messages are handled by WhatsApp under its own terms.</p>
+      <p>To ask us to delete your details, contact us at {site.email}.</p>
+    </div>
+  </section>
+</Layout>
