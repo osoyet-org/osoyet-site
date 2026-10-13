@@ -7,6 +7,7 @@ import { impact } from '../data/impact';
 import { team } from '../data/team';
 import { partners } from '../data/partners';
 import { site, whatsappLink } from '../data/site';
+import UpcomingEvents from '../components/UpcomingEvents.astro';
 ---
 
 <Layout>
@@ -85,6 +86,7 @@ import { site, whatsappLink } from '../data/site';
     </div>
   </section>
 
+       <UpcomingEvents />
   <!-- Team -->
   {team.length > 0 && (
     <section id="team" class="bg-brand-soft">

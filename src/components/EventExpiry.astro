@@ -1,0 +1,15 @@
+<!-- If an event date passes after the site was last built, hide its sign-up buttons -->
+<script>
+  const kenyaToday = new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+  document.querySelectorAll<HTMLElement>('[data-event-date]').forEach((event) => {
+    const day = event.dataset.eventDate;
+    if (!day || day >= kenyaToday) return;
+    event.querySelectorAll<HTMLElement>('[data-event-actions]').forEach((actions) => {
+      const note = document.createElement('p');
+      note.className = 'font-semibold text-muted';
+      note.textContent = 'This event has passed.';
+      actions.replaceWith(note);
+    });
+  });
+</script>

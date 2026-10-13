@@ -1,0 +1,57 @@
+---
+interface Props {
+  eventTitle: string;
+  eventDate: string;
+}
+
+const { eventTitle, eventDate } = Astro.props;
+
+// Use the same Formspree address as in ContactForm.astro
+const formAction = 'https://formspree.io/f/mzedpozd';
+const field = 'mt-1 w-full rounded-lg border-2 border-brand-line bg-white px-4 py-3 focus:border-brand focus:outline-none';
+---
+
+<form action={formAction} method="POST" class="space-y-5">
+  <input type="hidden" name="_subject" value={`Event sign-up: ${eventTitle}`} />
+  <input type="hidden" name="event" value={eventTitle} />
+  <input type="hidden" name="event_date" value={eventDate} />
+
+  <div>
+    <label for="ev-name" class="block font-semibold">Full name</label>
+    <input id="ev-name" name="name" type="text" required autocomplete="name" class={field} />
+  </div>
+
+  <div>
+    <label for="ev-phone" class="block font-semibold">Phone or WhatsApp number</label>
+    <input id="ev-phone" name="phone" type="tel" required autocomplete="tel" class={field} />
+  </div>
+
+  <div>
+    <label for="ev-email" class="block font-semibold">Email (optional)</label>
+    <input id="ev-email" name="email" type="email" autocomplete="email" class={field} />
+  </div>
+
+  <div>
+    <label for="ev-role" class="block font-semibold">How would you like to take part?</label>
+    <select id="ev-role" name="role" class={field}>
+      <option value="Attend the event">Attend the event</option>
+      <option value="Volunteer at the event">Volunteer at the event</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="ev-people" class="block font-semibold">How many people are coming?</label>
+    <input id="ev-people" name="people" type="number" min="1" value="1" class={field} />
+  </div>
+
+  <div>
+    <label for="ev-message" class="block font-semibold">Message (optional)</label>
+    <textarea id="ev-message" name="message" rows="3" class={field}></textarea>
+  </div>
+
+  <!-- Spam trap: real visitors never see or fill this -->
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+  <button type="submit" class="rounded-full bg-brand px-8 py-3 font-semibold text-white hover:opacity-90">Send my details</button>
+  <p class="text-sm text-muted">We use your details only to organise this event. See our <a href="/privacy" class="underline hover:text-brand">privacy note</a>.</p>
+</form>

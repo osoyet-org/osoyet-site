@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import EventCard from '../components/EventCard.astro';
+import EventExpiry from '../components/EventExpiry.astro';
+import { getEvents, formatDate } from '../lib/content';
+
+interface EventItem {
+  id: string;
+  slug?: string;
+  body?: string;
+  collection: string;
+  data: {
+    title: string;
+    date: string | Date;
+    [key: string]: any;
+  };
+}
+
+interface GetEventsResponse {
+  upcoming: EventItem[];
+  past: EventItem[];
+}
+
+const { upcoming, past } = (await getEvents()) as unknown as GetEventsResponse;
+---
+
+<Layout title="Events | Osoyet Organization" description="Upcoming events from Osoyet Organization. Register, volunteer or donate.">
+  <section class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <h1 class="text-4xl font-bold md:text-5xl">Events</h1>
+    <p class="mt-3 max-w-2xl text-lg text-muted">Join us, volunteer, or support an event.</p>
+
+    {upcoming.length === 0 ? (
+      <p class="mt-10 text-lg text-muted">No events are scheduled right now. Check back soon.</p>
+    ) : (
+      <ul class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {upcoming.map((event) => (
+          <li>
+            {/* @ts-ignore */}
+            <EventCard event={event} />
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {past.length > 0 && (
+      <div class="mt-16">
+        <h2 class="text-2xl font-semibold">Past events</h2>
+        <ul class="mt-4 divide-y divide-brand-line border-y border-brand-line">
+          {past.map((event) => (
+            <li class="py-3">
+              <a href={`/events/${event.id}`} class="font-semibold hover:text-brand">{event.data.title}</a>
+              <span class="text-muted"> &middot; {formatDate(new Date(event.data.date))}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    <EventExpiry />
+  </section>
+</Layout>

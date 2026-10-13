@@ -1,0 +1,36 @@
+---
+import { dayKey, formatDate } from '../lib/content';
+
+// 1. Define a clean, open type for the component props
+interface Props {
+  event: {
+    id: string;
+    data: {
+      title: string;
+      date: string | Date;
+      time?: string;
+      place?: string;
+      summary?: string;
+      image?: string;
+    };
+  };
+}
+
+const { event } = Astro.props;
+const { title, date, time, place, summary, image } = event.data;
+---
+
+<article class="flex h-full flex-col overflow-hidden rounded-2xl border-2 border-brand-line bg-white" data-event-date={dayKey(new Date(date))}>
+  {image && <img src={image} alt="" loading="lazy" class="aspect-[16/9] w-full object-cover" />}
+  <div class="flex flex-1 flex-col p-6">
+    {/* Convert date to a proper Date object inline for formatDate */}
+    <p class="font-semibold text-brand">{formatDate(new Date(date))}{time ? `, ${time}` : ''}</p>
+    <h3 class="mt-2 text-2xl font-semibold">{title}</h3>
+    <p class="mt-1 text-muted">{place}</p>
+    {summary && <p class="mt-3">{summary}</p>}
+    <div class="mt-auto flex flex-wrap gap-3 pt-5" data-event-actions>
+      <a href={`/events/${event.id}`} class="rounded-full bg-brand px-5 py-2 font-semibold text-white hover:opacity-90">Register or volunteer</a>
+      <a href="/#support" class="rounded-full border-2 border-brand px-5 py-2 font-semibold text-brand hover:bg-brand-soft">Donate</a>
+    </div>
+  </div>
+</article>

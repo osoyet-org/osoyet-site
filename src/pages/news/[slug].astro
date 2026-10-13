@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import RichText from '../../components/RichText.astro';
+import { formatDate } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} | Osoyet Organization`} description={post.data.summary || post.data.title}>
+  <article class="mx-auto max-w-3xl px-5 py-16 md:py-24">
+    <a href="/news" class="font-semibold text-brand hover:underline">&larr; All news</a>
+    <p class="mt-6 font-semibold text-brand">{formatDate(post.data.date)}</p>
+    <h1 class="mt-2 text-4xl font-bold md:text-5xl">{post.data.title}</h1>
+    {post.data.image && <img src={post.data.image} alt="" class="mt-8 w-full rounded-2xl object-cover" />}
+    <RichText>
+      <Content />
+    </RichText>
+  </article>
+</Layout>

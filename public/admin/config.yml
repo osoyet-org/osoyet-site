@@ -1,0 +1,47 @@
+backend:
+  name: github
+  repo: osoyet-org/osoyet-site
+  branch: main
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+site_url: https://osoyet-org.netlify.app
+display_url: https://osoyet-org.netlify.app
+
+collections:
+  - name: news
+    label: News
+    label_singular: News post
+    folder: src/content/news
+    create: true
+    extension: md
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} ({{date}})"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+      - { name: summary, label: Short summary, widget: text, required: false }
+      - { name: image, label: Photo, widget: image, required: false }
+      - { name: draft, label: "Draft (tick to keep hidden)", widget: boolean, default: false }
+      - { name: body, label: Story, widget: markdown }
+
+  - name: events
+    label: Events
+    label_singular: Event
+    folder: src/content/events
+    create: true
+    extension: md
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} ({{date}})"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Event name, widget: string }
+      - { name: date, label: Event date, widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+      - { name: time, label: "Time (for example 10:00 AM)", widget: string, required: false }
+      - { name: place, label: Place, widget: string }
+      - { name: summary, label: Short summary, widget: text, required: false }
+      - { name: image, label: Photo, widget: image, required: false }
+      - { name: draft, label: "Draft (tick to keep hidden)", widget: boolean, default: false }
+      - { name: body, label: Details, widget: markdown }

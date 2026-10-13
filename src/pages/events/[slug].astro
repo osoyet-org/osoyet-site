@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import RichText from '../../components/RichText.astro';
+import EventForm from '../../components/EventForm.astro';
+import EventExpiry from '../../components/EventExpiry.astro';
+import { dayKey, formatDate, todayInKenya } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events', ({ data }) => !data.draft);
+  return events.map((event) => ({ params: { slug: event.id }, props: { event } }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+const { title, date, time, place, summary, image } = event.data;
+const isPast = dayKey(date) < todayInKenya();
+---
+
+<Layout title={`${title} | Osoyet Organization`} description={summary || title}>
+  <article class="mx-auto max-w-3xl px-5 py-16 md:py-24" data-event-date={dayKey(date)}>
+    <a href="/events" class="font-semibold text-brand hover:underline">&larr; All events</a>
+    <p class="mt-6 font-semibold text-brand">{formatDate(date)}{time ? `, ${time}` : ''}</p>
+    <h1 class="mt-2 text-4xl font-bold md:text-5xl">{title}</h1>
+    <p class="mt-2 text-lg text-muted">{place}</p>
+    {image && <img src={image} alt="" class="mt-8 w-full rounded-2xl object-cover" />}
+    <RichText>
+      <Content />
+    </RichText>
+
+    {isPast ? (
+      <p class="mt-12 font-semibold text-muted">This event has passed.</p>
+    ) : (
+      <div class="mt-12" data-event-actions>
+        <h2 class="text-2xl font-semibold">Register or volunteer</h2>
+        <div class="mt-5">
+          <EventForm eventTitle={title} eventDate={formatDate(date)} />
+        </div>
+        <div class="mt-10 rounded-2xl bg-brand-soft p-6">
+          <h2 class="text-2xl font-semibold">Want to support this event?</h2>
+          <p class="mt-2">Your donation helps us run it.</p>
+          <a href="/#support" class="mt-4 inline-block rounded-full bg-brand px-6 py-3 font-semibold text-white hover:opacity-90">Donate</a>
+        </div>
+      </div>
+    )}
+    <EventExpiry />
+  </article>
+</Layout>
